@@ -30,6 +30,7 @@ let rootHandler = function(paramSchema, dataSchema) {
       let finalSchema = {};
       let validationErrors = [];
 
+      // Collect Validation errors and bundle as part of the 400 error
       dataSchema.forEach(field => {
         try {
           finalSchema[field._name] = field.to_resource(req.body);
@@ -40,7 +41,6 @@ let rootHandler = function(paramSchema, dataSchema) {
 
       if (validationErrors.length > 0) {
         let err = new restErrors.BadRequestException(validationErrors, 'Invalid body');
-        console.log(err);
         throw err;
       }
 
