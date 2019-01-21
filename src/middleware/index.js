@@ -1,0 +1,3 @@
+// Shim for easy imports of middlware...
+const error = require('./error_middleware');
+module.exports = { error: error };
