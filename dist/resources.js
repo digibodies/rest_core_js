@@ -54,7 +54,7 @@ var Resource = function Resource(obj, fields) {
     });
 
     // Update meta
-    result['_meta'].verbose = !has_excluded_fields;
+    result['_meta'].is_verbose = !has_excluded_fields;
     return result;
   };
 

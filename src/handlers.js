@@ -21,11 +21,12 @@ let rootHandler = function(paramSchema, dataSchema) {
     // Only post/put allow bodies...
     let hasBody = Object.keys(req.body).length > 0;
 
-    if (!(req.method.toLowerCase() == 'post' || req.method == 'put') && hasBody) {
+    let lowerMethod = req.method.toLowerCase();
+    if (!(lowerMethod == 'post' || lowerMethod == 'put') && hasBody) {
       throw new restErrors.BadRequestException('Body is not allowed for HTTP method : ' + req.method);
     }
 
-    if ((req.method.toLowerCase() == 'post' || req.method == 'put')) {
+    if ((lowerMethod == 'post' || lowerMethod == 'put')) {
 
       let finalSchema = {};
       let validationErrors = [];
