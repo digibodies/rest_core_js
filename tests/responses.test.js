@@ -1,5 +1,7 @@
 const responses = require('../src/responses');
 
+const defaultOrigin = 'https://example.com';
+
 test('serveResponse produces expected side affects', () => {
   // Set up Test
   const mJson = jest.fn();
@@ -7,7 +9,7 @@ test('serveResponse produces expected side affects', () => {
   const mCallback = jest.fn();
   const mSet = jest.fn();
 
-  const req = {cleaned_params: []};
+  const req = {cleaned_params: [], headers: {origin: defaultOrigin}};
   const res = {status: mStatus, set: mSet, json: mJson};
 
   const extraFields = {'cursor': null};
@@ -36,7 +38,7 @@ test('serveError produces expected side affects', () => {
   const mStatus = jest.fn().mockReturnValue({json: mJson});
   const mSet = jest.fn();
 
-  const req = {cleaned_params: []};
+  const req = {cleaned_params: [], headers: {origin: defaultOrigin}};
   const res = {status: mStatus, set: mSet, json: mJson};
   const err = new Error('Gandalf');
 
@@ -59,7 +61,7 @@ test('serve404 produces expected side affects', () => {
   const mStatus = jest.fn().mockReturnValue({json: mJson});
   const mSet = jest.fn();
 
-  const req = {cleaned_params: []};
+  const req = {cleaned_params: [], headers: {origin: defaultOrigin}};
   const res = {status: mStatus, set: mSet, json: mJson};
   const err = new Error('Gandalf');
 
@@ -82,7 +84,7 @@ test('serveSuccess produces expected side affects', () => {
   const mStatus = jest.fn().mockReturnValue({json: mJson});
   const mSet = jest.fn();
 
-  const req = {cleaned_params: []};
+  const req = {cleaned_params: [], headers: {origin: defaultOrigin}};
   const res = {status: mStatus, set: mSet, json: mJson};
 
   const extraFields = {'cursor': null};
@@ -100,4 +102,40 @@ test('serveSuccess produces expected side affects', () => {
   expect(mJson.mock.calls[0][0]['status']).toEqual(200);
   expect(mJson.mock.calls[0][0]['cursor']).toEqual(null);
   expect(mJson.mock.calls[0][0]['results']['givenName']).toEqual('Rick');
+});
+
+describe('Missing CORS environment variables', () => {
+  test('should error on missing REST_DEFAULT_ORIGIN', () => {
+    let backup = process.env.REST_DEFAULT_ORIGIN;
+    const req = {cleaned_params: [], headers: {origin: defaultOrigin}};
+
+    delete process.env.REST_DEFAULT_ORIGIN;
+    expect(() => {
+      responses.serveResponse({}, req, 200, {}, [], {});
+    }).toThrow(Error);
+    process.env.REST_DEFAULT_ORIGIN = backup;
+  });
+
+  test('should error on missing REST_WHITELIST_DOMAINS', () => {
+    let backup = process.env.REST_DEFAULT_ORIGIN;
+    const req = {cleaned_params: [], headers: {origin: defaultOrigin}};
+
+    delete process.env.REST_WHITELIST_DOMAINS;
+    expect(() => {
+      responses.serveResponse({}, req, 200, {}, [], {});
+    }).toThrow(Error);
+    process.env.REST_WHITELIST_DOMAINS = backup;
+  });
+
+  test('should error on missing REST_WHITELIST_RULES', () => {
+    let backup = process.env.REST_WHITELIST_RULES;
+    const req = {cleaned_params: [], headers: {origin: defaultOrigin}};
+
+    delete process.env.REST_WHITELIST_RULES;
+    expect(() => {
+      responses.serveResponse({}, req, 200, {}, [], {});
+    }).toThrow(Error);
+    process.env.REST_WHITELIST_RULES = backup;
+  });
+
 });

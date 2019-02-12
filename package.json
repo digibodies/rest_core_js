@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rm -rf dist && NODE_ENV=production babel src --out-dir dist",
     "lint": "eslint .",
-    "test": "jest"
+    "test": "REST_DEFAULT_ORIGIN=example.com REST_WHITELIST_DOMAINS='http://example.com https://www.example.com' REST_WHITELIST_RULES='/https?:\/\/app.example.com/' jest"
   },
   "repository": {
     "type": "git",

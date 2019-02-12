@@ -2,8 +2,8 @@
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-// Rest Core
-var API_DEFAULT_ORIGIN = 'localhost:9000'; // Uh.. yeah. ENV variable plz
+// Response helpers
+var utils = require('./utils');
 
 function serveResponse(res, req, status, results) {
   var messages = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
@@ -11,28 +11,37 @@ function serveResponse(res, req, status, results) {
 
   // Serve the response - should be the only spot that outputs
 
+  // Validate that cors allowed origin bits are defined
+  if (!process.env.REST_DEFAULT_ORIGIN) {
+    throw new Error('Environment Variable REST_DEFAULT_ORIGIN must be defined and in the form of https://example.com');
+  }
+
+  if (!process.env.REST_WHITELIST_DOMAINS) {
+    throw new Error('Environment Variable REST_WHITELIST_DOMAINS must be defined and a space separated string of domains in the form of https://example.com');
+  }
+
+  if (!process.env.REST_WHITELIST_RULES) {
+    throw new Error('Environment Variable REST_WHITELIST_RULES must be defined and a space separated string of domain regular expression in the form of https?://example.com, etc');
+  }
+
   // Check it messages is an array
   if (messages && typeof messages.map !== 'function') {
     messages = [messages];
   }
 
-  // Set the HTTP status code
-  res.status(status);
-
   // Determine origin for CORS
-  //let requestOrigin = req.headers.get('Origin') || req.headers.get('Referer');
-  var responseOrigin = API_DEFAULT_ORIGIN;
+  var requestOrigin = req.headers.origin; // || getDomain(req.headers.referer)
+  var responseOrigin = process.env.REST_DEFAULT_ORIGIN;
+  var whitelistedOrigins = process.env.REST_WHITELIST_DOMAINS.split(' ');
+  var whitelistedOriginRules = process.env.REST_WHITELIST_RULES.split(' ');
 
   // Check if request origin is white listed
+  if (utils.originAllowed(requestOrigin, whitelistedOrigins, whitelistedOriginRules)) {
+    responseOrigin = requestOrigin; // Overwrite response origin to be the request origin i.e. "all good"
+  };
 
-
-  /*
-  request_origin = self.request.headers.get('Origin') or self.request.referer
-  response_origin = API_DEFAULT_ORIGIN
-   origin_in_whitelist = rest_utils.is_origin_in_whitelist(request_origin)
-  if origin_in_whitelist:
-      response_origin = request_origin  # Input origin is good, so passthru
-  */
+  // Set the HTTP status code
+  res.status(status);
 
   //# TODO: Validate that extra_fields doesn't contain bad props - collisions
 
