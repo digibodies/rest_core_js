@@ -5,7 +5,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 // Response helpers
 var utils = require('./utils');
 
-function serveResponse(res, req, status, results) {
+function serveResponse(req, res, status, results) {
   var messages = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : null;
   var extraFields = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : {};
 
@@ -38,7 +38,7 @@ function serveResponse(res, req, status, results) {
   // Check if request origin is white listed
   if (utils.originAllowed(requestOrigin, whitelistedOrigins, whitelistedOriginRules)) {
     responseOrigin = requestOrigin; // Overwrite response origin to be the request origin i.e. "all good"
-  };
+  }
 
   // Set the HTTP status code
   res.status(status);
@@ -65,21 +65,21 @@ function serveResponse(res, req, status, results) {
   }
 }
 
-function serveError(res, req, e) {
+function serveError(req, res, e) {
   var status = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 500;
 
   var messages = e.stack.split('\n');
-  serveResponse(res, req, status, messages, messages = e.message);
+  serveResponse(req, res, status, messages, messages = e.message);
 }
 
-function serve404(res, req, e) {
-  serveResponse(res, req, 404, [], messages = e.message);
+function serve404(req, res, e) {
+  serveResponse(req, res, 404, [], e.message);
 }
 
-function serveSuccess(res, req, results, messages) {
+function serveSuccess(req, res, results, messages) {
   var extraFields = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
 
-  serveResponse(res, req, 200, results, messages, extraFields);
+  serveResponse(req, res, 200, results, messages, extraFields);
 }
 
 module.exports = {

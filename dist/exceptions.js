@@ -81,8 +81,6 @@ var BadRequestException = function (_RestError) {
   return BadRequestException;
 }(RestError);
 
-;
-
 var HTTPMethodNotAllowed = function (_RestError2) {
   _inherits(HTTPMethodNotAllowed, _RestError2);
 
@@ -95,8 +93,6 @@ var HTTPMethodNotAllowed = function (_RestError2) {
   return HTTPMethodNotAllowed;
 }(RestError);
 
-;
-
 var ValidationError = function (_RestError3) {
   _inherits(ValidationError, _RestError3);
 
@@ -108,8 +104,6 @@ var ValidationError = function (_RestError3) {
 
   return ValidationError;
 }(RestError);
-
-;
 
 module.exports = {
   RestError: RestError,

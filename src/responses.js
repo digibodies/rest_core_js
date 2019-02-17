@@ -1,7 +1,7 @@
 // Response helpers
 const utils = require('./utils');
 
-function serveResponse(res, req, status, results, messages=null, extraFields={}) {
+function serveResponse(req, res, status, results, messages=null, extraFields={}) {
   // Serve the response - should be the only spot that outputs
 
   // Validate that cors allowed origin bits are defined
@@ -33,7 +33,6 @@ function serveResponse(res, req, status, results, messages=null, extraFields={})
     responseOrigin = requestOrigin; // Overwrite response origin to be the request origin i.e. "all good"
   }
 
-
   // Set the HTTP status code
   res.status(status);
 
@@ -60,17 +59,17 @@ function serveResponse(res, req, status, results, messages=null, extraFields={})
   }
 }
 
-function serveError(res, req, e, status=500) {
+function serveError(req, res, e, status=500) {
   let messages = e.stack.split('\n');
-  serveResponse(res, req, status, messages, messages=e.message);
+  serveResponse(req, res, status, messages, messages=e.message);
 }
 
-function serve404(res, req, e) {
-  serveResponse(res, req, 404, [], e.message);
+function serve404(req, res, e) {
+  serveResponse(req, res, 404, [], e.message);
 }
 
-function serveSuccess(res, req, results, messages, extraFields={}) {
-  serveResponse(res, req, 200, results, messages, extraFields);
+function serveSuccess(req, res, results, messages, extraFields={}) {
+  serveResponse(req, res, 200, results, messages, extraFields);
 }
 
 module.exports = {

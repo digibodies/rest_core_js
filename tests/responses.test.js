@@ -19,7 +19,7 @@ test('serveResponse produces expected side affects', () => {
   const payload = {'givenName': 'Rick', 'familyName': 'Sanchez'};
 
   // Run Code to Test
-  const result = responses.serveResponse(res, req, 200, payload, messages, extraFields);
+  const result = responses.serveResponse(req, res, 200, payload, messages, extraFields);
 
   // Check Results
   expect(result).toBe(undefined);
@@ -45,7 +45,7 @@ test('serveError produces expected side affects', () => {
   const err = new Error('Gandalf');
 
   // Run Code To Test
-  const result = responses.serveError(res, req, err);
+  const result = responses.serveError(req, res, err);
 
   // Check Results
   expect(result).toBe(undefined);
@@ -68,7 +68,7 @@ test('serve404 produces expected side affects', () => {
   const err = new Error('Gandalf');
 
   // Run Code To Test
-  const result = responses.serve404(res, req, err);
+  const result = responses.serve404(req, res, err);
 
   // Check Results
   expect(result).toBe(undefined);
@@ -95,7 +95,7 @@ test('serveSuccess produces expected side affects', () => {
 
 
   // Run Code To Test
-  const result = responses.serveSuccess(res, req, payload, messages, extraFields);
+  const result = responses.serveSuccess(req, res, payload, messages, extraFields);
 
   // Check Results
   expect(result).toBe(undefined);
@@ -113,7 +113,7 @@ describe('Missing CORS environment variables', () => {
 
     delete process.env.REST_DEFAULT_ORIGIN;
     expect(() => {
-      responses.serveResponse({}, req, 200, {}, [], {});
+      responses.serveResponse(req, {}, 200, {}, [], {});
     }).toThrow(Error);
     process.env.REST_DEFAULT_ORIGIN = backup;
   });
@@ -124,7 +124,7 @@ describe('Missing CORS environment variables', () => {
 
     delete process.env.REST_WHITELIST_DOMAINS;
     expect(() => {
-      responses.serveResponse({}, req, 200, {}, [], {});
+      responses.serveResponse(req, {}, 200, {}, [], {});
     }).toThrow(Error);
     process.env.REST_WHITELIST_DOMAINS = backup;
   });
@@ -135,7 +135,7 @@ describe('Missing CORS environment variables', () => {
 
     delete process.env.REST_WHITELIST_RULES;
     expect(() => {
-      responses.serveResponse({}, req, 200, {}, [], {});
+      responses.serveResponse(req, {}, 200, {}, [], {});
     }).toThrow(Error);
     process.env.REST_WHITELIST_RULES = backup;
   });
