@@ -12,7 +12,7 @@ var Joi = require('joi');
 var _require = require('./exceptions'),
     ValidationError = _require.ValidationError;
 
-var Resource = function Resource(obj, fields) {
+var Resource = function Resource(obj, fields, explicitResourceType) {
   var resource = { obj: null, fields: [], errors: [], cleaned_data: [] };
 
   // TODO: This is pythonic way to check for empty object... convert to js
@@ -23,7 +23,6 @@ var Resource = function Resource(obj, fields) {
   if (obj == null || !((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object')) {
     throw Error('First argument to Resource should be object, received ' + obj);
   }
-
   resource.obj = obj;
 
   // Dumps a rest Resource to a json friendly return values
@@ -31,14 +30,21 @@ var Resource = function Resource(obj, fields) {
     var verbose = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
     var result = {};
-    //let verbose = false; // TODO: KWARG
 
     var obj = resource.obj;
-    if (!obj) {
+    if (!obj || obj == {}) {
       return result;
     }
 
-    result['_meta'] = { is_verbose: false, resource_type: 'TODO' };
+    // Determine Resource Kind
+    var resourceType = 'UNDEFINED_KIND';
+    if (explicitResourceType) {
+      resourceType = explicitResourceType;
+    } else if (obj.kind && obj.kind !== '') {
+      resourceType = obj.kind;
+    }
+
+    result['_meta'] = { is_verbose: false, resource_type: resourceType };
 
     // TODO: Set the resource_id for the resource
 
