@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 const responses = require('../src/responses');
 
 const defaultOrigin = 'https://example.com';

@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 // Handler tests
 const Joi = require('joi');
 const rootHandler = require('../src/handlers');

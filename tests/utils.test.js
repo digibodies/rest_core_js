@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 // Util Tests
 const utils = require('../src/utils');
 

@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 const {Resource, StringField} = require('../src/resources');
 
 let fields = [

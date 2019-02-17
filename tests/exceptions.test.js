@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 const exceptions = require('../src/exceptions');
 
 test('BadRequestException is a subclass of Error', () => {

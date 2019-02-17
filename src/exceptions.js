@@ -16,11 +16,11 @@ class BadRequestException extends RestError {
     // Retuns the collected sub errors
     return this._errors;
   }
-};
+}
 
-class HTTPMethodNotAllowed extends RestError {};
+class HTTPMethodNotAllowed extends RestError {}
 
-class ValidationError extends RestError {};
+class ValidationError extends RestError {}
 
 module.exports = {
   RestError,

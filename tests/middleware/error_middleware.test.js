@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 // Test middleware
 const exceptions = require('../../src/exceptions');
 const error_middleware = require('../../src/middleware/error_middleware');
