@@ -45,7 +45,7 @@ test('serveError produces expected side affects', () => {
   const err = new Error('Gandalf');
 
   // Run Code To Test
-  const result = responses.serveError(res, req, err)
+  const result = responses.serveError(res, req, err);
 
   // Check Results
   expect(result).toBe(undefined);
@@ -68,7 +68,7 @@ test('serve404 produces expected side affects', () => {
   const err = new Error('Gandalf');
 
   // Run Code To Test
-  const result = responses.serve404(res, req, err)
+  const result = responses.serve404(res, req, err);
 
   // Check Results
   expect(result).toBe(undefined);

@@ -19,11 +19,11 @@ function originAllowed(domain, whiteList, whiteListRules) {
 
   // Check if it is a match
   let match = whiteListRules.some((rule) => {
-    return (domain.match(RegExp(rule)) != null)
+    return (domain.match(RegExp(rule)) != null);
   });
 
   return match;
 }
 
 
-module.exports = {originAllowed}
+module.exports = {originAllowed};

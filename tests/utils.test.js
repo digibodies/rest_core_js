@@ -23,19 +23,19 @@ describe('Orgin Allowed validation', () => {
 
   test('should pass if domain is in whitelist resetModules', () => {
     let domain = 'http://myapp.com';
-    let rules = ['https?://localhost:*', 'https?://myapp\.[^.]+'];
+    let rules = ['https?://localhost:*', 'https?://myapp.[^.]+'];
     expect(utils.originAllowed(domain, [], rules)).toBe(true);
   });
 
   test('should fail if domain is not in whitelist', () => {
     let domain = 'http://badexample.com';
-    let rules = ['https?://localhost:[1-9]+', 'https?://myapp\.[^.]+'];
+    let rules = ['https?://localhost:[1-9]+', 'https?://myapp.[^.]+'];
     expect(utils.originAllowed(domain, [], rules)).toBe(false);
   });
 
   test('appengine versions should pass', () => {
     let domain = 'https://superadmin-web-dot-pollywog-dev-datastore.appspot.com';
-    let rules = ['https?://.+-dot-pollywog-dev-\.[^.]+.appspot.com'];
+    let rules = ['https?://.+-dot-pollywog-dev-.[^.]+.appspot.com'];
     expect(utils.originAllowed(domain, [], rules)).toBe(true);
   });
 

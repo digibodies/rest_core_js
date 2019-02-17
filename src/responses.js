@@ -31,7 +31,7 @@ function serveResponse(res, req, status, results, messages=null, extraFields={})
   // Check if request origin is white listed
   if (utils.originAllowed(requestOrigin, whitelistedOrigins, whitelistedOriginRules)) {
     responseOrigin = requestOrigin; // Overwrite response origin to be the request origin i.e. "all good"
-  };
+  }
 
 
   // Set the HTTP status code
@@ -66,7 +66,7 @@ function serveError(res, req, e, status=500) {
 }
 
 function serve404(res, req, e) {
-  serveResponse(res, req, 404, [], messages=e.message);
+  serveResponse(res, req, 404, [], e.message);
 }
 
 function serveSuccess(res, req, results, messages, extraFields={}) {

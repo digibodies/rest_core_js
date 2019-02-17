@@ -15,7 +15,7 @@ test('ensure that error middleware produces expected side affects and calls next
   const res = {status: mStatus};
 
   // Call Code to Test
-  result = error_middleware(err, req, res, mCallback);
+  let result = error_middleware(err, req, res, mCallback);
 
   // Check Results
   expect(result).toBe(undefined);
@@ -44,7 +44,7 @@ test('ensure that BadRequestException with sub errors handles them', () => {
   const res = {status: mStatus};
 
   // Call Code to Test
-  result = error_middleware(err, req, res, mCallback);
+  let result = error_middleware(err, req, res, mCallback);
 
   // Check Results
   expect(result).toBe(undefined);
