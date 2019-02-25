@@ -120,5 +120,28 @@ const IntegerField = (name, kwargs={}) => {
   return new RestField(name, kwargs);
 };
 
+var FloatField = function FloatField(name) {
+  var kwargs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  kwargs['type'] = 'FloatField';
+  kwargs['validator'] = kwargs['validator'] || Joi.number();
+  return new RestField(name, kwargs);
+}
+
+var DateTimeField = function DateTimeField(name) {
+  var kwargs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  kwargs['type'] = 'DateTimeField';
+  kwargs['validator'] = kwargs['validator'] || Joi.date();
+  return new RestField(name, kwargs);
+}
+
+var BooleanField = function BooleanField(name) {
+  var kwargs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  kwargs['type'] = 'BooleanField';
+  kwargs['validator'] = kwargs['validator'] || Joi.boolean();
+  return new RestField(name, kwargs);
+}
 
 module.exports = {Resource, RestField, StringField, IntegerField};
