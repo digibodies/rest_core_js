@@ -147,9 +147,8 @@ var IntegerField = function IntegerField(name) {
   var kwargs = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   kwargs['type'] = 'IntegerField';
-  kwargs['validator'] = kwargs['validator'] || Joi.number().precision();
+  kwargs['validator'] = kwargs['validator'] || Joi.number().integer();
   return new RestField(name, kwargs);
 };
-
 
 module.exports = { Resource: Resource, RestField: RestField, StringField: StringField, IntegerField: IntegerField };
