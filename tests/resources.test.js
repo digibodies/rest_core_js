@@ -1,12 +1,16 @@
 /* eslint-env jest */
 const models = require('core').models;
-const {Resource, StringField} = require('../src/resources');
+const {Resource, StringField, IntegerField, DateTimeField, FloatField, BooleanField} = require('../src/resources');
 
 // Example for Core model interface
 let Organization = models.model('Organization', {
   name: models.StringProperty({default:'unknown'}),
   nickname: models.StringProperty(),
   subdomain: models.StringProperty(),
+  date: models.DateTimeProperty(),
+  float: models.FloatProperty(),
+  int: models.IntegerProperty(),
+  bool: models.BooleanProperty(),
 });
 
 // Example resource schema
@@ -14,6 +18,10 @@ let fields = [
   StringField('nickname', {required:true}),
   StringField('name', {required:true}),
   StringField('subdomain', {required:true}),
+  DateTimeField('date', {required: true}),
+  FloatField('float', {required: true}),
+  IntegerField('int', {required: true}),
+  BooleanField('bool', {required:true})
 ];
 
 
@@ -45,6 +53,10 @@ describe('Converting a Resource to_dict should', () => {
     o.name = 'Council of Ricks';
     o.subdomain = 'ricks';
     o.nickname = 'The Ricks';
+    o.date = new Date();
+    o.float = 1.5;
+    o.int = 22;
+    o.bool = true;
 
     let r = Resource(o, fields).to_dict();
     expect(r._meta.resource_type).toBe('Organization');
@@ -58,6 +70,10 @@ describe('Converting a Resource to_dict should', () => {
     o.name = 'Council of Ricks';
     o.subdomain = 'ricks';
     o.nickname = 'The Ricks';
+    o.date = new Date();
+    o.float = 1.5;
+    o.int = 22;
+    o.bool = true;
 
     let r = Resource(o, fields, 'OrganizationV1').to_dict();
     expect(r._meta.resource_type).toBe('OrganizationV1');
@@ -70,7 +86,11 @@ describe('Converting a Resource to_dict should', () => {
     let o = {
       'name': 'Council of Ricks',
       'subdomain': 'ricks',
-      'nickname': 'The Ricks'
+      'nickname': 'The Ricks',
+      'date': new Date(),
+      'float': 1.5,
+      'int': 22,
+      'bool': true,
     };
 
     let r = Resource(o, fields).to_dict();
@@ -78,13 +98,21 @@ describe('Converting a Resource to_dict should', () => {
     expect(r.name).toBe('Council of Ricks');
     expect(r.subdomain).toBe('ricks');
     expect(r.nickname).toBe('The Ricks');
+    expect(r.date).toBeInstanceOf(Date);
+    expect(r.float).toBe(1.5);
+    expect(r.int).toBe(22);
+    expect(r.bool).toBe(true);
   });
 
   test('should succeed with ad hoc object and explicit ResourceType', () => {
     let o = {
       'name': 'Council of Ricks',
       'subdomain': 'ricks',
-      'nickname': 'The Ricks'
+      'nickname': 'The Ricks',
+      'date': new Date(),
+      'float': 1.5,
+      'int': 22,
+      'bool': true,
     };
 
     let r = Resource(o, fields, 'OrganizationV1').to_dict();
@@ -92,5 +120,9 @@ describe('Converting a Resource to_dict should', () => {
     expect(r.name).toBe('Council of Ricks');
     expect(r.subdomain).toBe('ricks');
     expect(r.nickname).toBe('The Ricks');
+    expect(r.date).toBeInstanceOf(Date);
+    expect(r.float).toBe(1.5);
+    expect(r.int).toBe(22);
+    expect(r.bool).toBe(true);
   });
 });

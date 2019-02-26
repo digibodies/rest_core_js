@@ -144,4 +144,4 @@ var BooleanField = function BooleanField(name) {
   return new RestField(name, kwargs);
 }
 
-module.exports = {Resource, RestField, StringField, IntegerField};
+module.exports = {Resource, RestField, StringField, IntegerField, BooleanField, DateTimeField, FloatField};
