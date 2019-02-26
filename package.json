@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/digibodies/rest_core_js#readme",
   "peerDependencies": {
-    "core": "https://github.com/digibodies/core_js.git#v0.0.2"
+    "core": "https://github.com/digibodies/core_js.git#v0.0.3"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
